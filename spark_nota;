@@ -1,0 +1,25 @@
+def removePunctuation(text):
+    return re.sub('[^A-Za-z0-9-\s','', text)
+
+distFile = sc.textFile("/Users/oventura/Downloads/pg100.txt", 4)
+rdd = distFile.map(lambda x:removePunctuation(x)).filter(lambda z: len(z)>0)
+rd2 = rdd.flatMap(lambda y:y.split()).map(lambda line : (line,1))
+rd3 = rd2.reduceByKey(lambda x,y:x+y).map(lambda x:(x[1],x[0])).sortByKey(False)
+
+
+
+
+val distFile = sc.textFile("/Users/oventura/Downloads/pg100.txt", 4)
+def removePunctuations(line: String): String = line.replaceAll("[^\\p{L}\\p{Nd}\\s]+", "");
+val rdd = distFile.map(x => removePunctuations(x)).filter(z =>z.length()>0)
+val rd2 = rdd.flatMap(x => x.split(" ")).filter(z =>z.length()>0).map(x => (x,1))
+val rd3 = rd2.reduceByKey( (x,y)=>x+y)
+val rd4= rd3.map(_.swap)
+
+
+val distFile = sc.textFile("/Users/oventura/Downloads/NASA_access_log_Aug95", 8)
+
+parsed_logs = (distFile.map(parseApacheLogLine).cache())
+
+
+export PYSPARK_SUBMIT_ARGS="--master local[2] pyspark-shell"

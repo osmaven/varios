@@ -1,0 +1,50 @@
+create hdfsstore orders_gfxd namenode 'hdfs://pivhdsne:8020' homedir '/orders_gfxd';
+
+CREATE TABLE order_gfxd
+    (
+       customer_id int, 
+  store_id int, 
+  order_datetime varchar(50), 
+  ship_completion_datetime varchar(50), 
+  return_datetime varchar(50), 
+  refund_datetime varchar(50), 
+  payment_method_code varchar(50), 
+  total_tax_amount FLOAT, 
+  total_paid_amount FLOAT, 
+  total_item_quantity int, 
+  total_discount_amount FLOAT, 
+  coupon_code varchar(50), 
+  coupon_amount FLOAT, 
+  order_canceled_flag varchar(50), 
+  has_returned_items_flag varchar(50), 
+  has_refunded_items_flag varchar(50), 
+  fraud_code varchar(50), 
+  fraud_resolution_code varchar(50), 
+  billing_address_line1 varchar(50), 
+  billing_address_line2 varchar(50), 
+  billing_address_line3 varchar(50), 
+  billing_address_city varchar(50), 
+  billing_address_state varchar(50), 
+  billing_address_postal_code varchar(50), 
+  billing_address_country varchar(50), 
+  billing_phone_number varchar(50), 
+  customer_name varchar(50), 
+  customer_email_address varchar(50), 
+  ordering_session_id varchar(50), 
+  website_url varchar(50),
+        PRIMARY KEY (customer_id,store_id, order_datetime, ship_completion_datetime)
+     )
+     PARTITION BY PRIMARY KEY
+     persistent
+     hdfsstore (orders_gfxd);
+     
+     
+     stream create --definition "time | gemfire-server --host=localhost --port=40404 " --name ticktockgf --deploy
+      stream create --definition "time | gemfire-server" --name ticktockgf --deploy
+     
+       host           host name of the cache server or locator (if useLocator=true). May be a comma delimited list  localhost            String
+  port           port of the cache server or locator (if useLocator=true). May be a comma delimited list       40404                String
+  useLocator     indicates whether a locator is used to access the cache server                                false                boolean
+  keyExpression  a SpEL expression which is evaluated to create a cache key                                    '${xd.stream.name}'  String
+  regionName     name of the region to use when storing data                                                   ${xd.stream.name}    String
+  inputType      how this module should interpret messages it consumes                                         <none>               MimeType

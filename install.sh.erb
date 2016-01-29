@@ -1,0 +1,26 @@
+#!/bin/bash
+mkdir -p <%= node[:spark][:install_path] %>
+cd <%= node[:spark][:install_path] %>
+
+wget <%= node[:spark][:download_url] %>
+tar xvzf <%= node[:spark][:downloaded_tgz_name] %>
+mv <%= node[:spark][:downloaded_folder_name] %> spark-stable
+cd spark-stable
+
+# configure hive-site for SparkSQL
+if [ -f /etc/hive/conf/hive-site.xml ]; then
+    cp /etc/hive/conf/hive-site.xml conf
+else
+    echo "hive-site not found"
+fi
+
+# configure Snappy for SparkSQL
+echo 'export JAVA_LIBRARY_PATH=$JAVA_LIBRARY_PATH:/usr/lib/hadoop/lib/native' > conf/spark-env.sh
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/hadoop/lib/native' >> conf/spark-env.sh
+
+# Enable periodic cleanup of worker / application directories and set TTL to 1 day 
+echo 'export SPARK_WORKER_OPTS="-Dspark.worker.cleanup.enabled=true -Dspark.worker.cleanup.appDataTtl=<%= node[:spark][:worker_cleanup_ttl] %>"' >> conf/spark-env.sh
+
+# set worker dir to <%= node[:spark][:worker_dir] %>
+mkdir -p <%= node[:spark][:worker_dir] %>
+echo 'export SPARK_WORKER_DIR="<%= node[:spark][:worker_dir] %>"' >> conf/spark-env.sh

@@ -1,0 +1,146 @@
+create table test.gender_data2
+(
+Indicator_Name  string,
+Indicator_Code  string,
+Countr_Name  string,
+Countr_Code  string,
+a1960  string,
+a1970  string,
+a1980  string,
+a1990  string,
+b2000  string,
+b2010  string,
+b2015  string)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE 
+LOCATION '/hadoop/Gender2'  
+
+Indicator Name,Indicator Code,Country Name,Country Code,1960,1970,1980,1990,2000,2010,2015
+
+
+service sshd restart
+export JAVA_HOME=/usr/
+export PATH=$JAVA_HOME/bin:$PATH
+#hive --service metastore
+sudo hive --service hiveserver
+sudo hive --service hiveserver2
+service hive-server start
+service hive-metastore start
+sudo service hadoop-hdfs-namenode start 
+
+/hdfs user
+
+hadoop dfsadmin -safemode leave
+
+for x in `cd /etc/init.d ; ls hadoop*` ; do sudo service $x start ; done
+
+netstat -tulpn
+
+
+service httpd start
+
+<property>
+<name>hive.metastore.uris</name>
+<value>thrift://sandbox.hortonworks.com:9083</value>
+</property>
+
+create table test.country
+(
+Country_Name  string,
+Country_Code  string,
+Indicator_Name  string,
+Indicator_Code  string,
+a1970  string,
+a1980  string,
+a1990  string,
+a2000  string,
+a2010  string,
+a2011  string,
+a2012  string,
+a2013  string,
+a2014  string,
+a2015  string)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE 
+LOCATION '/hadoop/Gender'  
+
+
+create external table hawq_flightavailability 
+  (flight_id varchar(6), segment_number integer, firstclass_seats_taken integer) 
+  location ('pxf://pivhdsne:50070/flights1/APP.FLIGHTAVAILABILITY?PROFILE=GemFireXD&CHECKPOINT=false') 
+  FORMAT 'TEXT' (DELIMITER=',');
+  
+  
+  CREATE EXTERNAL TABLE orders_hive(order_id TEXT, 
+  customer_id int, 
+  store_id int, 
+  order_datetime TEXT, 
+  ship_completion_datetime TEXT, 
+  return_datetime TEXT, 
+  refund_datetime TEXT, 
+  payment_method_code TEXT, 
+  total_tax_amount FLOAT, 
+  total_paid_amount FLOAT, 
+  total_item_quantity int, 
+  total_discount_amount FLOAT, 
+  coupon_code TEXT, 
+  coupon_amount FLOAT, 
+  order_canceled_flag TEXT, 
+  has_returned_items_flag TEXT, 
+  has_refunded_items_flag TEXT, 
+  fraud_code TEXT, 
+  fraud_resolution_code TEXT, 
+  billing_address_line1 TEXT, 
+  billing_address_line2 TEXT, 
+  billing_address_line3 TEXT, 
+  billing_address_city TEXT, 
+  billing_address_state TEXT, 
+  billing_address_postal_code TEXT, 
+  billing_address_country TEXT, 
+  billing_phone_number TEXT, 
+  customer_name TEXT, 
+  customer_email_address TEXT, 
+  ordering_session_id TEXT, 
+  website_url TEXT
+)　
+LOCATION ('pxf://pivhdsne:50070/retail_demo.orders_hive?PROFILE=Hive')
+FORMAT 'custom' (formatter='pxfwritable_import');
+
+
+CREATE TABLE order_gfxd
+    (
+       customer_id int, 
+  store_id int, 
+  order_datetime TEXT, 
+  ship_completion_datetime TEXT, 
+  return_datetime TEXT, 
+  refund_datetime TEXT, 
+  payment_method_code TEXT, 
+  total_tax_amount FLOAT, 
+  total_paid_amount FLOAT, 
+  total_item_quantity int, 
+  total_discount_amount FLOAT, 
+  coupon_code TEXT, 
+  coupon_amount FLOAT, 
+  order_canceled_flag TEXT, 
+  has_returned_items_flag TEXT, 
+  has_refunded_items_flag TEXT, 
+  fraud_code TEXT, 
+  fraud_resolution_code TEXT, 
+  billing_address_line1 TEXT, 
+  billing_address_line2 TEXT, 
+  billing_address_line3 TEXT, 
+  billing_address_city TEXT, 
+  billing_address_state TEXT, 
+  billing_address_postal_code TEXT, 
+  billing_address_country TEXT, 
+  billing_phone_number TEXT, 
+  customer_name TEXT, 
+  customer_email_address TEXT, 
+  ordering_session_id TEXT, 
+  website_url TEXT,
+        PRIMARY KEY (customer_id,store_id, order_datetime, ship_completion_datetime)
+     )
+     PARTITION BY PRIMARY KEY
+     persistent
+     hdfsstore (orders_gfxd);

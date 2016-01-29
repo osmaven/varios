@@ -1,0 +1,40 @@
+CREATE EXTERNAL WEB TABLE  retail_demo.tfl_api
+(tablename TEXT,
+databasename TEXT,
+creatorname TEXT
+)
+EXECUTE '/pivotal-samples/hawq/shelscript/runtfl.sh' on master
+FORMAT 'TEXT' (DELIMITER ‘|’);
+
+"id":"1732959117"
+"operationType":1
+"vehicleId":"LK60AEX"
+"naptanId":"490003193R"
+"stationName":"Aldwych / Somerset House"
+"lineId":"91"
+"lineName":"91"
+"timestamp":"2015-10-23T14:50:16.813Z"
+"timeToStation":519
+"currentLocation":""
+
+EXECUTE 'java -cp /home/gpadmin/gplink/jar/terajdbc4.jar:/home/gpadmin/gplink/jar/tdgssconfig.jar:. kk "select trim(tablename),trim(databasename),trim(creatorname) from dbc.tables" "192.168.0.16"' on host
+FORMAT 'TEXT' (DELIMITER ‘|’);
+
+CREATE EXTERNAL WEB TABLE  test.t1
+(tablename TEXT,
+databasename TEXT,
+creatorname TEXT
+)
+EXECUTE 'java -cp /home/gpadmin/gplink/jar/terajdbc4.jar:/home/gpadmin/gplink/jar/tdgssconfig.jar:/home/gpadmin/gplink/jar gptd2gp "select trim(tablename),trim(databasename),trim(creatorname) from dbc.tables" "192.168.0.16"'  on master
+FORMAT 'TEXT' (DELIMITER '|')
+
+CREATE EXTERNAL WEB TABLE  test.t2
+(tablename TEXT,
+databasename TEXT,
+creatorname TEXT,
+numero INT
+
+)
+EXECUTE 'java -cp 	 "select trim(tablename),trim(databasename),trim(creatorname),1 from dbc.tables" "192.168.0.16"'  on master
+FORMAT 'TEXT' (DELIMITER '|')
+

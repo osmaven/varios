@@ -1,0 +1,50 @@
+  
+  CREATE EXTERNAL TABLE orders_hive(order_id TEXT, 
+  customer_id int, 
+  store_id int, 
+  order_datetime TEXT, 
+  ship_completion_datetime TEXT, 
+  return_datetime TEXT, 
+  refund_datetime TEXT, 
+  payment_method_code TEXT, 
+  total_tax_amount FLOAT, 
+  total_paid_amount FLOAT, 
+  total_item_quantity int, 
+  total_discount_amount FLOAT, 
+  coupon_code TEXT, 
+  coupon_amount FLOAT, 
+  order_canceled_flag TEXT, 
+  has_returned_items_flag TEXT, 
+  has_refunded_items_flag TEXT, 
+  fraud_code TEXT, 
+  fraud_resolution_code TEXT, 
+  billing_address_line1 TEXT, 
+  billing_address_line2 TEXT, 
+  billing_address_line3 TEXT, 
+  billing_address_city TEXT, 
+  billing_address_state TEXT, 
+  billing_address_postal_code TEXT, 
+  billing_address_country TEXT, 
+  billing_phone_number TEXT, 
+  customer_name TEXT, 
+  customer_email_address TEXT, 
+  ordering_session_id TEXT, 
+  website_url TEXT
+)　
+LOCATION ('pxf://pivhdsne:50070/retail_demo.orders_hive?PROFILE=Hive')
+FORMAT 'custom' (formatter='pxfwritable_import');
+
+
+wifi-7-49:02-pydata-spyre-app oventura$ cf login --sso
+API endpoint: https://api.run.pez.pivotal.io
+
+One Time Code (Get one at https://uaa.run.pez.pivotal.io/passcode)> 
+Authenticating...
+Credentials were rejected, please try again.
+
+One Time Code (Get one at https://uaa.run.pez.pivotal.io/passcode)> 
+
+
+gRkw0X
+
+b13c6f96-ad46-4a89-9c60-d6f56d622aaa
