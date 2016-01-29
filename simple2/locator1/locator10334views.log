@@ -1,0 +1,6 @@
+
+[info 2016/01/19 16:39:58.592 GMT <main> tid=0x1] Log opened with new distributed system connection.  View(creator=Oventura(locator1:21544:locator)<v0>:8927, viewId=0, [Oventura(locator1:21544:locator)<v0>:8927])
+
+[info 2016/01/19 16:40:30.890 GMT <DM-MemberEventInvoker> tid=0x18] A new member joined: Oventura(server1:21553)<v1>:34822.  View(creator=Oventura(locator1:21544:locator)<v0>:8927, viewId=1, [Oventura(locator1:21544:locator)<v0>:8927, Oventura(server1:21553)<v1>:34822])
+
+[info 2016/01/19 16:40:31.946 GMT <Pooled High Priority Message Processor 1> tid=0x55] server summary: 1 cache servers with 0 client connections/current cache servers : Oventura(server1:21553)<v1>:34822 
